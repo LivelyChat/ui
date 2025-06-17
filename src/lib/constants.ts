@@ -1,0 +1,1 @@
+export const MESSAGE_COUNT_PER_REQUEST = 20;

@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit&family=Noto+Sans+SC&display=swap');
+
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes:
+    pastel --default,
+    forest --prefersdark;
+}
+
+body {
+  font-family: 'Outfit', 'Noto Sans SC', sans-serif;
+}
