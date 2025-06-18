@@ -13,7 +13,7 @@
   $effect(() => {
     if (isSelected) {
       setTimeout(() => {
-        goto('#');
+        goto(page.url.pathname + page.url.search);
       }, 1000);
     }
   });
