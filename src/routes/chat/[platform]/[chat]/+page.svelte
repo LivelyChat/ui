@@ -23,6 +23,7 @@
   let secretInput: string = $state('');
   let messageCount: number = $state(0);
   let onlineCount: number = $state(0);
+  let unreadMessages: string[] = $state([]);
   let chatHistory: Message[] = $state([]);
   let isAtBottom = $state(true);
 
@@ -53,9 +54,7 @@
       : undefined
   );
   let messagesQuery = $derived(
-    browser
-      ? createQuery(api.messages.list({ platform, chat, secret, before, limit }))
-      : undefined
+    browser ? createQuery(api.messages.list({ platform, chat, secret, before, limit })) : undefined
   );
 
   const enterSecretKey = () => {
@@ -75,6 +74,16 @@
       top: chatContainer.scrollHeight,
       behavior: smooth ? 'smooth' : 'auto'
     });
+    unreadMessages = unreadMessages.filter((id) => !isVisible(id));
+  };
+
+  const isVisible = (id: string) => {
+    if (!chatContainer) return false;
+    const messageElement = document.getElementById(`message-${id}`);
+    if (!messageElement) return false;
+    const { top, bottom } = messageElement.getBoundingClientRect();
+    const { top: containerTop, bottom: containerBottom } = chatContainer.getBoundingClientRect();
+    return top >= containerTop && bottom <= containerBottom;
   };
 
   const loadHistory = () => {
@@ -117,6 +126,8 @@
       if (isAtBottom) {
         await tick();
         scrollToBottom(true);
+      } else {
+        unreadMessages.push(message.id);
       }
     });
 
@@ -194,6 +205,17 @@
 {/if}
 
 <div class="flex h-screen w-screen flex-col items-center justify-center">
+  {#if unreadMessages.length > 0}
+    <button
+      class="btn btn-soft btn-primary absolute right-10 bottom-6 z-90 gap-2"
+      onclick={() => {
+        scrollToBottom(true);
+      }}
+    >
+      <i class="fa-solid fa-chevron-down"></i>
+      {unreadMessages.length}
+    </button>
+  {/if}
   {#if $messagesQuery?.isLoading && chatHistory.length === 0}
     <span class="loading loading-spinner w-16"></span>
   {/if}
@@ -219,10 +241,11 @@
   {/if}
   <div
     bind:this={chatContainer}
-    class="o flex max-h-screen w-full scroll-pt-24 flex-col overflow-y-auto pt-24"
+    class="o flex max-h-screen w-full scroll-pt-24 flex-col overflow-y-auto pt-24 pb-4"
     onscroll={() => {
-      isAtBottom = checkIfAtBottom();
       loadHistory();
+      isAtBottom = checkIfAtBottom();
+      unreadMessages = unreadMessages.filter((id) => !isVisible(id));
     }}
   >
     {#if messageCount > limit}
