@@ -97,6 +97,9 @@
     socket.on('joined', (id: string, online: number) => {
       onlineCount = online;
       console.log(`Joined: ${id}`, online);
+      if (id === socket.id && secret) {
+        localStorage.setItem(`secret.${platform}.${chat}`, secret);
+      }
     });
 
     socket.on('left', (id: string, online: number) => {
@@ -175,10 +178,10 @@
 </svelte:head>
 
 {#if $groupQuery.isSuccess}
-  <ChatHeader target={$groupQuery.data} {onlineCount} />
+  <ChatHeader target={$groupQuery.data} {platform} {onlineCount} bind:self={self} />
 {:else if chat.startsWith('private:') && chatHistory.length > 0}
   {@const target = chatHistory[0].sender}
-  <ChatHeader target={{ name: target.username, avatar: target.avatar }} {onlineCount} />
+  <ChatHeader target={{ name: target.username, avatar: target.avatar }} {platform} {onlineCount} bind:self={self} />
 {/if}
 
 <div class="flex h-screen w-screen flex-col items-center justify-center">
@@ -186,29 +189,24 @@
     <span class="loading loading-spinner w-16"></span>
   {/if}
   {#if secretFieldset}
-    <form>
-      <fieldset
-        class="fieldset bg-base-200 border-base-300 rounded-box flex flex-col justify-center gap-2 border p-4"
-      >
-        <legend class="fieldset-legend text-lg">Secret key</legend>
-        <input type="hidden" name="email" value={chat} />
-        <input
-          type="text"
-          class="input w-full"
-          bind:value={secretInput}
-          placeholder="Enter the secret key here"
-          onkeydown={(e) => {
-            if (e.key === 'Enter') {
-              enterSecretKey();
-            }
-          }}
-        />
-        <p class="label text-wrap">
-          Please provide the secret key in order to access this private chat.
-        </p>
-        <button type="button" class="btn btn-primary" onclick={enterSecretKey}>Continue</button>
-      </fieldset>
-    </form>
+    <fieldset
+      class="fieldset bg-base-200 border-base-300 rounded-box flex flex-col justify-center gap-2 border p-4"
+    >
+      <legend class="fieldset-legend text-lg">Secret key</legend>
+      <input
+        type="text"
+        class="input w-full"
+        bind:value={secretInput}
+        placeholder="Enter the secret key here"
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            enterSecretKey();
+          }
+        }}
+      />
+      <p class="label text-wrap">Please provide the secret key in order to access this chat.</p>
+      <button class="btn btn-primary" onclick={enterSecretKey}>Continue</button>
+    </fieldset>
   {/if}
   <div
     bind:this={chatContainer}

@@ -3,12 +3,41 @@
   import { page } from '$app/state';
   import { getUrl } from '$lib/utils';
 
-  let { target, onlineCount }: { target: { name: string; avatar: string }; onlineCount: number } =
-    $props();
+  let {
+    platform,
+    target,
+    onlineCount,
+    self = $bindable()
+  }: {
+    platform: string;
+    target: { name: string; avatar: string };
+    onlineCount: number;
+    self: string | undefined;
+  } = $props();
 
   let isHovered = $state(false);
   let copied = $state(false);
+
+  let settingsDialog: HTMLDialogElement;
 </script>
+
+<dialog id="settings" class="modal" bind:this={settingsDialog}>
+  <fieldset
+    class="modal-box fieldset bg-base-200 border-base-300 rounded-box flex flex-col justify-center gap-2 border p-4 duration-100"
+  >
+    <legend class="fieldset-legend text-lg">My identity</legend>
+    <input type="text" class="input w-full" bind:value={self} placeholder="Optional" />
+    <p class="label text-wrap">Provide an identity whose messages are displayed on the right.</p>
+    <button
+      type="button"
+      class="btn btn-primary mt-1"
+      onclick={() => {
+        settingsDialog.close();
+        localStorage.setItem(`self.${platform}`, self || '');
+      }}>Continue</button
+    >
+  </fieldset>
+</dialog>
 
 <nav
   class="navbar-w shadow-base-300/20 border-base-100/20 hover:border-secondary fixed top-4 z-[900] mx-4 flex justify-between gap-4 overflow-hidden rounded-full border-2 p-4 shadow-sm backdrop-blur-3xl backdrop-brightness-65 transition hover:backdrop-brightness-30"
@@ -40,7 +69,9 @@
         : 'h-0'} transition-all"
     >
       <button
-        class="btn btn-xs sm:btn-sm lg:btn-md btn-circle {copied ? 'btn-success btn-active' : 'btn-ghost'}"
+        class="btn btn-xs sm:btn-sm lg:btn-md btn-circle {copied
+          ? 'btn-success btn-active'
+          : 'btn-ghost'}"
         onclick={() => {
           navigator.clipboard.writeText(page.url.toString());
           copied = true;
@@ -59,7 +90,15 @@
       </button>
       <button
         class="btn btn-xs sm:btn-sm lg:btn-md btn-circle btn-ghost"
-        aria-label="Exit to home"
+        aria-label="Settings"
+        onclick={() => {
+          settingsDialog.showModal();
+        }}
+        ><i class="fa-solid fa-gear fa-xl"></i>
+      </button>
+      <button
+        class="btn btn-xs sm:btn-sm lg:btn-md btn-circle btn-ghost"
+        aria-label="Back to home"
         onclick={() => {
           goto('/');
         }}

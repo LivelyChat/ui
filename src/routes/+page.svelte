@@ -19,12 +19,13 @@
     let result: string | null = null;
     untrack(() => {
       try {
-        const url = new URL(address);
+        const url = new URL(address.replace('private:', 'private__'));
         const parts = url.pathname.replace('/chat/', '').split('/').filter(Boolean);
         if (parts.length === 2) {
           if (url.searchParams.has('secret')) {
             secret = url.searchParams.get('secret') || '';
           }
+          parts[1] = parts[1].replace('private__', 'private:');
           platform = parts[0];
           chat = parts[1];
           result = url.origin + '/chat/' + parts.join('/');
@@ -45,8 +46,8 @@
 
   const handleGo = () => {
     if (secret) localStorage.setItem(`secret.${platform}.${chat}`, secret);
-    if (self) localStorage.setItem(`self.${platform}`, self);
-    if (url) goto(url);
+    localStorage.setItem(`self.${platform}`, self || '');
+    if (url) location.href = url;
   };
 
   $effect(() => {
@@ -131,7 +132,7 @@
             />
             <span class="label mt-1">Secret key</span>
             <input type="text" class="input" placeholder="Optional" bind:value={secret} />
-            <span class="label mt-1">My ID</span>
+            <span class="label mt-1">My identity</span>
             <input type="text" class="input" placeholder="Optional" bind:value={self} />
             <button class="btn btn-outline btn-primary mt-3" disabled={!url} onclick={handleGo}>
               Go
