@@ -36,11 +36,11 @@
     const key = `self.${platform}`;
     return (
       page.url.searchParams.get(key) ??
-      (browser ? (localStorage.getItem(key) ?? undefined) : undefined)
+      (browser ? (localStorage.getItem(key.toLowerCase()) ?? undefined) : undefined)
     );
   });
   let secret = $derived(
-    browser ? (localStorage.getItem(`secret.${platform}.${chat}`) ?? undefined) : undefined
+    browser ? (localStorage.getItem(`secret.${platform}.${chat}`.toLowerCase()) ?? undefined) : undefined
   );
 
   let groupQuery = $derived(
@@ -111,7 +111,7 @@
       onlineCount = online;
       console.log(`Joined: ${id}`, online);
       if (id === socket.id && secret) {
-        localStorage.setItem(`secret.${platform}.${chat}`, secret);
+        localStorage.setItem(`secret.${platform}.${chat}`.toLowerCase(), secret);
       }
     });
 

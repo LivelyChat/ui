@@ -33,7 +33,7 @@
       class="btn btn-primary mt-1"
       onclick={() => {
         settingsDialog.close();
-        localStorage.setItem(`self.${platform}`, self || '');
+        localStorage.setItem(`self.${platform}`.toLowerCase(), self || '');
       }}>Continue</button
     >
   </fieldset>

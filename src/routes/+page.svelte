@@ -44,19 +44,15 @@
   let overviewQuery = $derived(createQuery(api.home.overview({})));
 
   const handleGo = () => {
-    if (secret) localStorage.setItem(`secret.${platform}.${chat}`, secret);
-    localStorage.setItem(`self.${platform}`, self || '');
+    if (secret) localStorage.setItem(`secret.${platform}.${chat}`.toLowerCase(), secret);
+    localStorage.setItem(`self.${platform}`.toLowerCase(), self || '');
     if (url) location.href = url;
   };
 
   $effect(() => {
     if (platform) {
       untrack(() => {
-        if (localStorage.getItem(`self.${platform}`)) {
-          self = localStorage.getItem(`self.${platform}`) || '';
-        } else {
-          self = '';
-        }
+        self = localStorage.getItem(`self.${platform}`.toLowerCase()) || '';
       });
     }
   });
