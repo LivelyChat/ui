@@ -9,12 +9,14 @@
   import { getPlatformName, preprocess } from '$lib/utils';
   import ChatHeader from '$lib/components/ChatHeader.svelte';
   import { PUBLIC_SOCKET_URL } from '$env/static/public';
+  import { page } from '$app/state';
+  import { browser } from '$app/environment';
 
   const limit = MESSAGE_COUNT_PER_REQUEST;
   const SCROLL_THRESHOLD = 500;
 
   let { data } = $props();
-  let { api, platform, chat, secret, self } = $derived(data);
+  let { api, platform, chat } = $derived(data);
 
   let before: number | undefined = $state(undefined);
   let secretFieldset: boolean = $state(false);
@@ -28,6 +30,17 @@
   let previousScrollTop: number = 0;
 
   let chatContainer: HTMLElement;
+
+  let self = $derived.by(() => {
+    const key = `self.${platform}`;
+    return (
+      page.url.searchParams.get(key) ??
+      (browser ? (localStorage.getItem(key) ?? undefined) : undefined)
+    );
+  });
+  let secret = $derived(
+    browser ? (localStorage.getItem(`secret.${platform}.${chat}`) ?? undefined) : undefined
+  );
 
   let groupQuery = $derived(
     createQuery(
