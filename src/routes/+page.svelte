@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
   import { GITHUB_LINK } from '$lib';
   import { createQuery } from '@tanstack/svelte-query';
   import { untrack } from 'svelte';
@@ -62,6 +61,12 @@
     }
   });
 </script>
+
+<svelte:head>
+  <title>LivelyChat</title>
+  <meta property="og:title" content="LivelyChat" />
+  <meta property="og:type" content="website" />
+</svelte:head>
 
 <div class="hero bg-base-200 min-h-screen">
   <div class="hero-content text-center">

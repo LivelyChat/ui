@@ -7,12 +7,6 @@
   let { children, data }: LayoutProps = $props();
 </script>
 
-<svelte:head>
-  <title>LivelyChat</title>
-  <meta property="og:title" content="LivelyChat" />
-  <meta property="og:type" content="website" />
-</svelte:head>
-
 <QueryClientProvider client={data.queryClient}>
   {@render children()}
 </QueryClientProvider>
