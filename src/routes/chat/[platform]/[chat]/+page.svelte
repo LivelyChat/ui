@@ -54,7 +54,7 @@
   );
   let messagesQuery = $derived(
     browser
-      ? createQuery(api.messages.list({ platform, chatId: chat, secret, before, limit }))
+      ? createQuery(api.messages.list({ platform, chat, secret, before, limit }))
       : undefined
   );
 

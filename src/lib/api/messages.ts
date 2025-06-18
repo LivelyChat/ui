@@ -2,7 +2,7 @@ import Api, { createQueryCreator, stringifyQueryParams, type R } from '.';
 
 interface QueryOpts {
   platform: string;
-  chatId: string;
+  chat: string;
   secret?: string;
   before?: number;
   limit?: number;
