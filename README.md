@@ -1,38 +1,30 @@
-# sv
+# LivelyChat UI
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+## Features
 
-## Creating a project
+- **Realtime connection**: Live broadcast of chat messages
+- **Infinite scrolling**: Seamless chat history queries
+- **Refreshing design**: Built with TailwindCSS and daisyUI
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Environment variables
 
-```bash
-# create a new project in the current directory
-npx sv create
+- `PUBLIC_API_BASE`: This is the base URL of your LivelyChat API deployment. It should not contain a trailing slash.
+- `PUBLIC_SOCKET_URL`: This should point to the same address as that in `PUBLIC_API_BASE`, and the two should only differ in protocols.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Development
 
-## Developing
+### Prerequisites
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- [pnpm](https://pnpm.io/)
+- A [LivelyChat API](https://github.com/LivelyChat/api) deployment
 
-```bash
-npm run dev
+### Setup
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. Clone this repository.
+2. Copy `.env.example` to `.env` and make necessary changes.
+3. Install dependencies via `pnpm i`.
+4. Start a development server via `pnpm dev`.
 
-## Building
+## Deployment
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+It's recommended that you deploy this app on a cloud service, such as [Vercel](https://vercel.com/) or [Cloudflare Workers](https://workers.cloudflare.com/).
