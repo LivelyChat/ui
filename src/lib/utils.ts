@@ -1,4 +1,3 @@
-import { PUBLIC_PROXY_ENDPOINT } from '$env/static/public';
 import type { Message } from './api/messages';
 
 export const findName = (userId: string, context: Message[]) => {
@@ -60,4 +59,4 @@ export const getPlatformName = (platform: string): string => {
   }
 };
 
-export const getUrl = (url: string): string => PUBLIC_PROXY_ENDPOINT + encodeURIComponent(url);
+export const getUrl = (url: string): string => '/api/proxy?url=' + encodeURIComponent(url);
