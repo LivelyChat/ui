@@ -43,15 +43,19 @@
   );
 
   let groupQuery = $derived(
-    createQuery(
-      api.qq.groupInfo(
-        { platform, chatId: chat, secret },
-        { enabled: platform === 'qq' && !chat.startsWith('private:') }
-      )
-    )
+    browser
+      ? createQuery(
+          api.qq.groupInfo(
+            { platform, chatId: chat, secret },
+            { enabled: platform === 'qq' && !chat.startsWith('private:') }
+          )
+        )
+      : undefined
   );
   let messagesQuery = $derived(
-    createQuery(api.messages.list({ platform, chatId: chat, secret, before, limit }))
+    browser
+      ? createQuery(api.messages.list({ platform, chatId: chat, secret, before, limit }))
+      : undefined
   );
 
   const enterSecretKey = () => {
@@ -79,7 +83,7 @@
       chatHistory.length > 0 &&
       chatContainer.scrollTop === 0 &&
       messageCount >= limit &&
-      !$messagesQuery.isFetching
+      !$messagesQuery?.isFetching
     ) {
       previousScrollHeight = chatContainer.scrollHeight;
       previousScrollTop = chatContainer.scrollTop;
@@ -124,7 +128,7 @@
   };
 
   $effect(() => {
-    if (chatContainer && $messagesQuery.isSuccess && !$messagesQuery.isFetching) {
+    if (chatContainer && $messagesQuery?.isSuccess && !$messagesQuery.isFetching) {
       untrack(async () => {
         console.log('History loaded:', $messagesQuery.data);
 
@@ -148,7 +152,7 @@
         }
       });
     }
-    if ($messagesQuery.isError) {
+    if ($messagesQuery?.isError) {
       if ($messagesQuery.error.httpStatus === 403) {
         secretFieldset = true;
       }
@@ -156,7 +160,7 @@
   });
 
   $effect(() => {
-    if (!$messagesQuery.isSuccess) return;
+    if (!$messagesQuery?.isSuccess) return;
 
     const socket = configureSocket(platform, chat, secret);
     socket.connect();
@@ -169,7 +173,7 @@
 
 <svelte:head>
   <title>
-    {$groupQuery.data?.name || chatHistory.at(0)?.sender.username || chat} - LivelyChat {getPlatformName(
+    {$groupQuery?.data?.name || chatHistory.at(0)?.sender.username || chat} - LivelyChat {getPlatformName(
       platform
     )}
   </title>
@@ -177,15 +181,20 @@
   <meta property="og:type" content="website" />
 </svelte:head>
 
-{#if $groupQuery.isSuccess}
-  <ChatHeader target={$groupQuery.data} {platform} {onlineCount} bind:self={self} />
+{#if $groupQuery?.isSuccess}
+  <ChatHeader target={$groupQuery.data} {platform} {onlineCount} bind:self />
 {:else if chat.startsWith('private:') && chatHistory.length > 0}
   {@const target = chatHistory[0].sender}
-  <ChatHeader target={{ name: target.username, avatar: target.avatar }} {platform} {onlineCount} bind:self={self} />
+  <ChatHeader
+    target={{ name: target.username, avatar: target.avatar }}
+    {platform}
+    {onlineCount}
+    bind:self
+  />
 {/if}
 
 <div class="flex h-screen w-screen flex-col items-center justify-center">
-  {#if $messagesQuery.isLoading && chatHistory.length === 0}
+  {#if $messagesQuery?.isLoading && chatHistory.length === 0}
     <span class="loading loading-spinner w-16"></span>
   {/if}
   {#if secretFieldset}
