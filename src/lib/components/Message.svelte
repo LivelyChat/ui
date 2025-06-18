@@ -52,7 +52,7 @@
             ? 'chat-bubble-accent'
             : 'chat-bubble-neutral'} text-lg break-all"
         >
-          <p>{element.data.text}</p>
+          <p class="whitespace-pre-wrap">{element.data.text}</p>
         </div>
       {:else if element.type === 'reply'}
         {@const repliee = context.find((m) => m.id === element.data.id)}

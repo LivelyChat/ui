@@ -40,7 +40,7 @@
 </dialog>
 
 <nav
-  class="navbar-w shadow-base-300/20 border-base-100/20 hover:border-secondary fixed top-4 z-[900] mx-4 flex justify-between gap-4 overflow-hidden rounded-full border-2 p-4 shadow-sm backdrop-blur-3xl backdrop-brightness-65 transition hover:backdrop-brightness-30"
+  class="navbar-w shadow-base-300/20 border-base-100/20 hover:border-secondary fixed top-4 z-[900] mx-4 flex justify-between gap-4 overflow-hidden rounded-full border-2 bg-white/35 p-4 shadow-sm backdrop-blur-3xl backdrop-brightness-85 transition-all hover:bg-white/60 dark:bg-transparent dark:backdrop-brightness-65 hover:dark:bg-transparent hover:dark:backdrop-brightness-30"
   onmouseenter={() => (isHovered = true)}
   onmouseleave={() => (isHovered = false)}
 >
