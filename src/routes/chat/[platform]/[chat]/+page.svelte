@@ -126,7 +126,7 @@
   $effect(() => {
     if (chatContainer && $messagesQuery.isSuccess && !$messagesQuery.isFetching) {
       untrack(async () => {
-        console.log('Messages query successful:', $messagesQuery.data);
+        console.log('History loaded:', $messagesQuery.data);
 
         const isInitialLoad = chatHistory.length === 0 && previousScrollHeight === 0;
         const newFetchedMessages = $messagesQuery.data.messages.toReversed();
