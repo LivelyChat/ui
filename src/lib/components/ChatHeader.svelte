@@ -73,7 +73,7 @@
           ? 'btn-success btn-active'
           : 'btn-ghost'}"
         onclick={() => {
-          navigator.clipboard.writeText(page.url.toString());
+          navigator.clipboard.writeText(page.url.origin + page.url.pathname);
           copied = true;
           setTimeout(() => {
             copied = false;
@@ -108,7 +108,7 @@
   </div>
   <div
     class="navbar-end flex-col items-end-safe justify-center {isHovered
-      ? 'text-lg md:text-xl lg:text-2xl xl:text-3xl sm:mr-1 md:mr-2 lg:mr-4 xl:mr-6'
+      ? 'text-lg sm:mr-1 md:mr-2 md:text-xl lg:mr-4 lg:text-2xl xl:mr-6 xl:text-3xl'
       : 'text-base sm:text-lg lg:text-xl'} transition-all"
   >
     <div class="flex items-center gap-2">
