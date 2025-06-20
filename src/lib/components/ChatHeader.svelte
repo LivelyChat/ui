@@ -108,8 +108,8 @@
   </div>
   <div
     class="navbar-end flex-col items-end-safe justify-center {isHovered
-      ? 'text-lg md:text-xl lg:text-2xl xl:text-3xl'
-      : 'text-base sm:text-lg lg:text-xl'}"
+      ? 'text-lg md:text-xl lg:text-2xl xl:text-3xl sm:mr-1 md:mr-2 lg:mr-4 xl:mr-6'
+      : 'text-base sm:text-lg lg:text-xl'} transition-all"
   >
     <div class="flex items-center gap-2">
       <div class="inline-grid *:[grid-area:1/1]">
