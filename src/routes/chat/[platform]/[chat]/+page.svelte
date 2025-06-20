@@ -213,7 +213,7 @@
       }}
     >
       <i class="fa-solid fa-chevron-down"></i>
-      {unreadMessages.length}
+      {unreadMessages.length.toLocaleString()}
     </button>
   {/if}
   {#if $messagesQuery?.isLoading && chatHistory.length === 0}

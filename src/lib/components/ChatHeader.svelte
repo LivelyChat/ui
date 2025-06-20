@@ -10,7 +10,7 @@
     self = $bindable()
   }: {
     platform: string;
-    target: { name: string; avatar: string };
+    target: { name: string; avatar: string; memberCount?: number };
     onlineCount: number;
     self: string | undefined;
   } = $props();
@@ -125,10 +125,10 @@
         ></div>
       </div>
       <span class="transition-all">
-        {onlineCount}
+        {onlineCount.toLocaleString()}
       </span>
     </div>
-    {#if 'memberCount' in target}
+    {#if target?.memberCount}
       <div
         class="flex items-end overflow-hidden {isHovered
           ? 'h-6 sm:h-7 md:h-8 lg:h-10'
@@ -137,7 +137,7 @@
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-user-group"></i>
           <span class="transition-all">
-            {target.memberCount}
+            {target.memberCount.toLocaleString()}
           </span>
         </div>
       </div>

@@ -76,7 +76,7 @@
               <i class="fa-solid fa-user-group fa-xl"></i>
             </div>
             <div class="stat-title">Total Chats</div>
-            <div class="stat-value text-primary">{$overviewQuery.data.chatCount}</div>
+            <div class="stat-value text-primary">{$overviewQuery.data.chatCount.toLocaleString()}</div>
           </div>
 
           <div class="stat">
@@ -84,7 +84,7 @@
               <i class="fa-solid fa-comments fa-xl"></i>
             </div>
             <div class="stat-title">Total Messages</div>
-            <div class="stat-value text-secondary">{$overviewQuery.data.messageCount}</div>
+            <div class="stat-value text-secondary">{$overviewQuery.data.messageCount.toLocaleString()}</div>
           </div>
         </div>
       {/if}
