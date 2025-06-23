@@ -7,7 +7,7 @@ export const load = async ({ fetch }) => {
     defaultOptions: {
       queries: {
         enabled: browser,
-        refetchOnWindowFocus: false,
+        refetchOnWindowFocus: false
       }
     }
   });

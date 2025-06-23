@@ -40,7 +40,9 @@
     );
   });
   let secret = $derived(
-    browser ? (localStorage.getItem(`secret.${platform}.${chat}`.toLowerCase()) ?? undefined) : undefined
+    browser
+      ? (localStorage.getItem(`secret.${platform}.${chat}`.toLowerCase()) ?? undefined)
+      : undefined
   );
 
   let groupQuery = $derived(
