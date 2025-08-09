@@ -148,3 +148,11 @@
     </div>
   </div>
 </div>
+
+<style>
+  .collapse-transition {
+    transition-property: grid-template-rows, height, opacity, border-color, box-shadow, margin-top;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms, 300ms, 300ms, 150ms, 150ms, 300ms;
+  }
+</style>
